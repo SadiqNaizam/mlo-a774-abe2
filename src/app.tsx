@@ -1,6 +1,7 @@
 import { ThemeProvider } from "./components/ThemeProvider";
 import IndexPage from "./pages/Index";
 import { AuthProvider } from "./components/auth/AuthContext";
+import { Toaster } from "@/components/ui/sonner";
 
 /**
  * =================================================================================================
@@ -33,6 +34,7 @@ function App() {
       <AuthProvider> {/* This is a mock provider for demonstration. Replace with MsalProvider. */}
         <ThemeProvider defaultTheme="dark" storageKey="ascendion-ui-theme">
           <IndexPage />
+          <Toaster richColors position="top-right" />
         </ThemeProvider>
       </AuthProvider>
     // </MsalProvider>
