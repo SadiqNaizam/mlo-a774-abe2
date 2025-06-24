@@ -1,7 +1,9 @@
 import { ThemeProvider } from "./components/ThemeProvider";
 import IndexPage from "./pages/Index";
 import ProfilePage from "./pages/Profile";
+import LoginPage from "./pages/LoginPage";
 import { AuthProvider } from "./components/auth/AuthContext";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { Toaster } from "@/components/ui/sonner";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -20,7 +22,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
  *
  * 4. Replace the mock `<AuthProvider>` with the real `<MsalProvider>`.
  *
- * 5. You can then remove the mock auth files in `src/components/auth/`.
+ * 5. You can then remove the mock auth files in `src/components/auth/` and the LoginPage.
+ *    MSAL's own configuration can handle redirects to the Microsoft login page.
  * =================================================================================================
  */
 
@@ -37,8 +40,9 @@ function App() {
       <AuthProvider> {/* This is a mock provider for demonstration. Replace with MsalProvider. */}
         <ThemeProvider defaultTheme="dark" storageKey="ascendion-ui-theme">
           <Routes>
-            <Route path="/" element={<IndexPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<ProtectedRoute><IndexPage /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           </Routes>
           <Toaster richColors position="top-right" />
         </ThemeProvider>
