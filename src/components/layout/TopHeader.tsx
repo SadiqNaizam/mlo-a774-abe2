@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sun, User, Settings, LogOut } from 'lucide-react';
+import { Sun, User, Settings, LogOut, Moon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,16 +11,25 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useTheme } from '../ThemeProvider';
 
 const TopHeader: React.FC = () => {
+  const { setTheme, theme } = useTheme();
+
   return (
     <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-border bg-background px-6">
       <div>
         {/* This space can be used for breadcrumbs or page titles */}
       </div>
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
-          <Sun className="h-5 w-5" />
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="text-muted-foreground hover:text-foreground"
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        >
+          <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
         
