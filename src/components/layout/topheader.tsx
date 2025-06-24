@@ -16,10 +16,12 @@ import { useAuth } from '../auth/AuthContext';
 import { AuthenticatedTemplate } from '../auth/AuthenticatedTemplate';
 import { LoginButton } from '../auth/LoginButton';
 import { LogoutButton } from '../auth/LogoutButton';
+import { useDashboard } from '../dashboard/DashboardContext';
 
 const TopHeader: React.FC = () => {
   const { setTheme, theme } = useTheme();
   const { user } = useAuth();
+  const { setActiveTab } = useDashboard();
 
   return (
     <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-border bg-background px-6">
@@ -39,7 +41,11 @@ const TopHeader: React.FC = () => {
         </Button>
         
         <AuthenticatedTemplate>
-          <Button variant="outline" className="border-border text-foreground hover:bg-muted">
+          <Button 
+            variant="outline" 
+            className="border-border text-foreground hover:bg-muted"
+            onClick={() => setActiveTab('artifacts')}
+          >
             Export
           </Button>
 
