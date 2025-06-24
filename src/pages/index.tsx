@@ -7,6 +7,7 @@ import TopHeader from '@/components/layout/TopHeader';
 import { AuthenticatedTemplate } from '@/components/auth/AuthenticatedTemplate';
 import { UnauthenticatedTemplate } from '@/components/auth/UnauthenticatedTemplate';
 import { LoginButton } from '@/components/auth/LoginButton';
+import { DashboardProvider } from '@/components/dashboard/DashboardContext';
 
 /**
  * Renders the main dashboard page for the Ascendion Dashboard Clone.
@@ -38,35 +39,37 @@ const IndexPage: React.FC = () => {
       </UnauthenticatedTemplate>
 
       <AuthenticatedTemplate>
-        <div className="grid grid-cols-[auto_1fr] min-h-screen bg-background text-foreground">
-          {/* Column 1: Fixed Sidebar */}
-          <SidebarNav />
+        <DashboardProvider>
+          <div className="grid grid-cols-[auto_1fr] min-h-screen bg-background text-foreground">
+            {/* Column 1: Fixed Sidebar */}
+            <SidebarNav />
 
-          {/* Column 2: Main Content Area (Header + Scrollable Body) */}
-          <div className="flex flex-col max-h-screen overflow-hidden">
-            {/* Sticky Header */}
-            <TopHeader />
+            {/* Column 2: Main Content Area (Header + Scrollable Body) */}
+            <div className="flex flex-col max-h-screen overflow-hidden">
+              {/* Sticky Header */}
+              <TopHeader />
 
-            {/* Scrollable Body */}
-            <main className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-6">
-              {/* 
-                This flex-based layout allows the top and bottom sections to grow proportionally.
-                The `min-h-0` is crucial for flex children to prevent them from overflowing the container.
-              */}
-              
-              {/* Primary Content Row: Task List and Code Window */}
-              <div className="flex-grow-[3] grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
-                <TaskCompletionList />
-                <CodeWindow />
-              </div>
+              {/* Scrollable Body */}
+              <main className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-6">
+                {/* 
+                  This flex-based layout allows the top and bottom sections to grow proportionally.
+                  The `min-h-0` is crucial for flex children to prevent them from overflowing the container.
+                */}
+                
+                {/* Primary Content Row: Task List and Code Window */}
+                <div className="flex-grow-[3] grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
+                  <TaskCompletionList />
+                  <CodeWindow />
+                </div>
 
-              {/* Secondary Content Row: Log Viewer */}
-              <div className="flex-grow-[2] min-h-0">
-                <LogViewer />
-              </div>
-            </main>
+                {/* Secondary Content Row: Log Viewer */}
+                <div className="flex-grow-[2] min-h-0">
+                  <LogViewer />
+                </div>
+              </main>
+            </div>
           </div>
-        </div>
+        </DashboardProvider>
       </AuthenticatedTemplate>
     </>
   );
