@@ -49,7 +49,7 @@ export default {
 					foreground: 'hsl(var(--accent-foreground))'
 				},
         'accent-secondary': '#79F0FF',
-        success: '#23D682',
+        success: 'hsl(var(--success))',
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
 					foreground: 'hsl(var(--popover-foreground))'
