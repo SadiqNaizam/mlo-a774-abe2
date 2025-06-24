@@ -1,7 +1,9 @@
 import { ThemeProvider } from "./components/ThemeProvider";
 import IndexPage from "./pages/Index";
+import ProfilePage from "./pages/Profile";
 import { AuthProvider } from "./components/auth/AuthContext";
 import { Toaster } from "@/components/ui/sonner";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 /**
  * =================================================================================================
@@ -31,12 +33,17 @@ import { Toaster } from "@/components/ui/sonner";
 function App() {
   return (
     // <MsalProvider instance={msalInstance}>
+    <BrowserRouter>
       <AuthProvider> {/* This is a mock provider for demonstration. Replace with MsalProvider. */}
         <ThemeProvider defaultTheme="dark" storageKey="ascendion-ui-theme">
-          <IndexPage />
+          <Routes>
+            <Route path="/" element={<IndexPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Routes>
           <Toaster richColors position="top-right" />
         </ThemeProvider>
       </AuthProvider>
+    </BrowserRouter>
     // </MsalProvider>
   );
 }
