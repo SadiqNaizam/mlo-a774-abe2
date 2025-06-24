@@ -4,8 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Search } from 'lucide-react';
+import { FileText, Search, Archive } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useDashboard } from './DashboardContext';
 
 interface FileData {
   name: string;
@@ -15,29 +16,29 @@ interface FileData {
 const filesData: FileData[] = [
   {
     name: 'src/index.css',
-    content: `@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\nbody {\n  background-color: hsl(var(--background));\n  color: hsl(var(--foreground));\n}`,
+    content: `@tailwind base;\\n@tailwind components;\\n@tailwind utilities;\\n\\nbody {\\n  background-color: hsl(var(--background));\\n  color: hsl(var(--foreground));\\n}`,
   },
   {
     name: 'src/App.tsx',
-    content: `import React from 'react';\n\nfunction App() {\n  return (\n    <div className="App">\n      <h1>Ascendion Dashboard</h1>\n    </div>\n  );\n}\n\nexport default App;`,
+    content: `import React from 'react';\\n\\nfunction App() {\\n  return (\\n    <div className=\"App\">\\n      <h1>Ascendion Dashboard</h1>\\n    </div>\\n  );\\n}\\n\\nexport default App;`,
   },
   {
     name: 'tailwind.config.ts',
-    content: `import type { Config } from 'tailwindcss';\n\nexport default {\n  content: ["./src/**/*.{js,ts,jsx,tsx}"],\n  theme: {\n    extend: {},\n  },\n  plugins: [],\n} satisfies Config;`,
+    content: `import type { Config } from 'tailwindcss';\\n\\nexport default {\\n  content: [\"./src/**/*.{js,ts,jsx,tsx}\"],\\n  theme: {\\n    extend: {},\\n  },\\n  plugins: [],\\n} satisfies Config;`,
   },
   {
     name: 'package.json',
-    content: `{\n  "name": "ascendion-dashboard-clone",\n  "version": "0.1.0",\n  "private": true,\n  "dependencies": {\n    "react": "^18.3.1",\n    "tailwindcss": "^3.4.11"\n  }\n}`,
+    content: `{\\n  \"name\": \"ascendion-dashboard-clone\",\\n  \"version\": \"0.1.0\",\\n  \"private\": true,\\n  \"dependencies\": {\\n    \"react\": \"^18.3.1\",\\n    \"tailwindcss\": \"^3.4.11\"\\n  }\\n}`,
   },
 ];
 
 const CodeWindow: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('code');
+  const { activeTab, setActiveTab } = useDashboard();
   const [selectedFile, setSelectedFile] = useState<string>(filesData[0].name);
   const [searchTerm, setSearchTerm] = useState('');
 
   const activeFileContent = filesData.find((file) => file.name === selectedFile)?.content || 'File not found.';
-  const lineCount = activeFileContent.split('\n').length;
+  const lineCount = activeFileContent.split('\\n').length;
 
   const filteredFiles = filesData.filter(file => 
     file.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -83,7 +84,7 @@ const CodeWindow: React.FC = () => {
                             <FileText className="mr-2 h-4 w-4" />
                             {file.name}
                             </Button>
-                        ))}
+                        ))}\
                         </div>
                     </ScrollArea>
                 </div>
@@ -108,8 +109,20 @@ const CodeWindow: React.FC = () => {
         <TabsContent value="logs" className='flex-grow m-0 flex items-center justify-center'>
             <p className='text-muted-foreground'>Logs will be displayed here.</p>
         </TabsContent>
-         <TabsContent value="artifacts" className='flex-grow m-0 flex items-center justify-center'>
-            <p className='text-muted-foreground'>Build artifacts will be available here.</p>
+         <TabsContent value="artifacts" className='flex-grow m-0 p-6'>
+            <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
+                <Archive className="h-16 w-16 mb-4 text-primary/80" />
+                <h3 className="text-xl font-semibold text-foreground mb-2">Project Exported</h3>
+                <p className="mb-6">A zip archive <code className='font-mono bg-muted text-foreground p-1 rounded-md'>project-export.zip</code> has been generated.</p>
+                <div className='w-full max-w-md text-left bg-muted/50 p-4 rounded-lg border border-border/50'>
+                    <h4 className='text-sm font-bold text-foreground mb-2'>Included Files:</h4>
+                    <ul className='space-y-1 text-sm list-disc list-inside ml-4'>
+                        {filesData.map(file => (
+                            <li key={file.name} className="truncate">{file.name}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </TabsContent>
       </Tabs>
     </Card>
