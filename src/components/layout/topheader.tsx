@@ -1,5 +1,6 @@
 import React from 'react';
-import { Sun, User, Settings, Moon } from 'lucide-react';
+import { Sun, User, Settings, Moon, CodeSquare } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +23,19 @@ const TopHeader: React.FC = () => {
   const { setTheme, theme } = useTheme();
   const { user } = useAuth();
   const { setActiveTab } = useDashboard();
+
+  const handleExportToVSCode = () => {
+    // In a real desktop-integrated application, you would use the vscode:// protocol.
+    // For example: window.location.href = 'vscode://file/path/to/your/project';
+    // Since we cannot know the absolute path here, we'll simulate with a notification.
+    toast.info("This would open the project in VS Code", {
+      description: "This is a simulated action. A real implementation would require the project's local file path.",
+      action: {
+        label: "OK",
+        onClick: () => {},
+      },
+    });
+  };
 
   return (
     <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-border bg-background px-6">
@@ -74,6 +88,10 @@ const TopHeader: React.FC = () => {
               <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
+              </DropdownMenuItem>
+               <DropdownMenuItem onClick={handleExportToVSCode}>
+                <CodeSquare className="mr-2 h-4 w-4" />
+                <span>Export to VSCode</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <LogoutButton />
